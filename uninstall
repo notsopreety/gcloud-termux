@@ -1,0 +1,78 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Script: GCloud SDK Uninstaller for Termux
+# Description: Completely removes Google Cloud SDK and cleans up related files.
+# Author: Samir Badaila
+# Version: 1.0
+# Date: 2025-02-27
+
+set -e 
+
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+header() {
+    clear
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${GREEN}   Google Cloud SDK Uninstaller for Termux   ${NC}"
+    echo -e "${GREEN}========================================${NC}"
+    echo -e "${BLUE}Version: 1.0 | Published Date: 2025-02-27${NC}\n"
+}
+
+success() {
+    echo -e "${GREEN}[✓] $1${NC}"
+}
+
+error() {
+    echo -e "${RED}[✗] Error: $1${NC}"
+    exit 1
+}
+
+warning() {
+    echo -e "${YELLOW}[!] Warning: $1${NC}"
+}
+
+echo -e "${BLUE}[~] Removing Google Cloud SDK...${NC}"
+if rm -rf "$PREFIX/google-cloud-sdk" 2>/dev/null; then
+    success "Google Cloud SDK removed successfully."
+else
+    warning "Google Cloud SDK not found."
+fi
+
+echo -e "${BLUE}[~] Removing gcloud command...${NC}"
+if rm -f "$PREFIX/bin/gcloud" 2>/dev/null; then
+    success "gcloud command removed successfully."
+else
+    warning "gcloud command not found."
+fi
+
+echo -e "${BLUE}[~] Cleaning up environment variables...${NC}"
+if sed -i '/export PATH=\$PATH:\$PREFIX\/bin/d' "$HOME/.bashrc" && \
+   sed -i '/export CLOUDSDK_PYTHON=/d' "$HOME/.bashrc"; then
+    success "Environment variables cleaned successfully."
+else
+    warning "Failed to clean up environment variables."
+fi
+
+echo -e "${BLUE}[~] Clearing shell command cache...${NC}"
+if hash -r 2>/dev/null; then
+    success "Shell command cache cleared successfully."
+else
+    warning "Failed to clear shell command cache."
+fi
+
+# Step 5: Clean up temporary files
+echo -e "${BLUE}[~] Cleaning up temporary files...${NC}"
+if rm -rf "/data/data/com.termux/files/usr/tmp/gcloud*" 2>/dev/null; then
+    success "Temporary files removed successfully."
+else
+    warning "No temporary files found."
+fi
+
+echo -e "\n${GREEN}========================================${NC}"
+echo -e "${GREEN}   Google Cloud SDK Uninstallation Complete   ${NC}"
+echo -e "${GREEN}========================================${NC}"
+echo -e "${BLUE}Google Cloud SDK has been completely removed from your system.${NC}"
