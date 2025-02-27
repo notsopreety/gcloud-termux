@@ -63,7 +63,7 @@ if [[ ! " ${SUPPORTED_ARCHS[*]} " =~ " ${ARCH} " ]]; then
 fi
 echo -e "${BLUE}[~] Detected architecture: $ARCH${NC}"
 
-DEPENDENCIES=("krb5-libs" "ldns" "libffi" "python" "openssl" "openssh" "libsqlite" "libresolv-wrapper")
+DEPENDENCIES=("ldns" "libffi" "python" "openssl" "openssh" "libsqlite" "libresolv-wrapper")
 echo -e "${BLUE}[~] Installing dependencies...${NC}"
 for package in "${DEPENDENCIES[@]}"; do
     install_package "$package"
@@ -104,9 +104,9 @@ else
     error "Google Cloud SDK installation failed."
 fi
 
-echo -e "${BLUE}[~] Cleaning up temporary files...${NC}"
+echo -e "${BLUE}[~] Cleaning up cache files...${NC}"
 if rm -rf "$TEMP_DIR" 2>/dev/null; then
-    success "Temporary files removed successfully."
+    success "Cache files removed successfully."
 else
     warning "Failed to clean up temporary files."
 fi
