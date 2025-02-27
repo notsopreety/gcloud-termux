@@ -32,6 +32,14 @@ Run the following command in Termux to install the Google Cloud SDK:
 curl -sS https://raw.githubusercontent.com/notsopreety/gcloud-termux/main/install | bash
 ```
 
+## Uninstallation 🗑️
+
+To completely remove Google Cloud SDK from Termux, run the following command:
+
+```bash
+curl -sS https://raw.githubusercontent.com/notsopreety/gcloud-termux/main/uninstall | bash
+```
+
 The script will automatically:
 1. Update your system packages.
 2. Install all required dependencies.
